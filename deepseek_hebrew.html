@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Английская ↔ Иврит раскладка</title>
+<style>
+  :root {
+    --bg: #f8fafc;
+    --panel: #ffffff;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --accent2: #db2777;
+    --shadow: 0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  header {
+    text-align: center;
+    padding: 16px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+  }
+  h1 {
+    font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  h1 .arrow { color: var(--accent); margin: 0 6px; }
+  .subtitle { color: var(--muted); font-size: 0.82rem; }
+
+  /* Две равные половины. Высота — по содержимому. */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    column-gap: 28px;
+    padding: 16px;
+    position: relative;
+  }
+  /* Вертикальная линия-разделитель по центру */
+  .split::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 50%;
+    width: 1px;
+    background: var(--border);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .half {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .panel-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .panel-label .badge {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.63rem;
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+  }
+  .half.right .panel-label .badge {
+    background: #fce7f3;
+    color: var(--accent2);
+  }
+
+  textarea {
+    height: 165px;
+    min-height: 165px;
+    width: 100%;
+    background: #fbfdff;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 2.2rem;
+    line-height: 1.3;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+  }
+  #inputL { direction: ltr; text-align: left; }
+  #outputL, #inputR { direction: rtl; text-align: right; }
+  #inputR  { color: var(--accent2); }
+  #outputL { color: var(--accent); }
+  #outputR { direction: ltr; text-align: left; color: var(--accent); }
+
+  /* --- Стили кнопок --- */
+  .half-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  
+  /* Общие стили для всех кнопок */
+  .btn {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: opacity .15s, transform .1s;
+    box-shadow: var(--shadow);
+  }
+  .btn:hover { opacity: .9; }
+  .btn:active { transform: scale(.97); }
+
+  /* Переопределение для правой половины: ВСЕ кнопки (и копировать, и очистить) 
+     получают розовый фон и белый текст. */
+  .half.right .btn {
+    background: var(--accent2);
+    border: none;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Английская <span class="arrow">⇄</span> Иврит раскладка</h1>
+  <p class="subtitle">Слева — латиница в иврит, справа — иврит в латиницу. Печатайте в любом поле, второе обновляется автоматически.</p>
+</header>
+
+<div class="split">
+  <!-- ЛЕВАЯ ПОЛОВИНА: EN -> HE -->
+  <section class="half left">
+    <div class="panel">
+      <div class="panel-label">
+        <span>Английская раскладка (ввод)</span>
+        <span class="badge">EN → עב</span>
+      </div>
+      <textarea id="inputL" placeholder="ndhg kvurho" spellcheck="false" autocomplete="off"></textarea>
+
+      <div class="panel-label" style="margin-top:2px;">
+        <span>Иврит (результат)</span>
+      </div>
+      <textarea id="outputL" readonly placeholder="כאן יופיע הטקסט בעברית..."></textarea>
+
+      <div class="half-actions">
+        <button class="btn" id="copyL">📋 Копировать иврит</button>
+        <button class="btn" id="clearL">Очистить</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРАВАЯ ПОЛОВИНА: HE -> EN -->
+  <section class="half right">
+    <div class="panel">
+      <div class="panel-label">
+        <span>Иврит (ввод)</span>
+        <span class="badge">עב → EN</span>
+      </div>
+      <textarea id="inputR" placeholder="מגיע להורים" spellcheck="false" autocomplete="off"></textarea>
+
+      <div class="panel-label" style="margin-top:2px;">
+        <span>Английская раскладка (результат)</span>
+      </div>
+      <textarea id="outputR" readonly placeholder="Text in English layout will appear here..."></textarea>
+
+      <div class="half-actions">
+        <button class="btn" id="copyR">📋 Копировать латиницу</button>
+        <button class="btn" id="clearR">Очистить</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- Карта клавиш: EN -> HE (стандартная израильская раскладка) ---------- */
+const KEYMAP = {
+  'q': '/', 'w': "'", 'e': 'ק', 'r': 'ר', 't': 'א', 'y': 'ט',
+  'u': 'ו', 'i': 'ן', 'o': 'ם', 'p': 'פ',
+  '[': ']', ']': '[',
+  'a': 'ש', 's': 'ד', 'd': 'ג', 'f': 'כ', 'g': 'ע', 'h': 'י',
+  'j': 'ח', 'k': 'ל', 'l': 'ך', ';': 'ף', "'": ',',
+  'z': 'ז', 'x': 'ס', 'c': 'ב', 'v': 'ה', 'b': 'נ', 'n': 'מ',
+  'm': 'צ', ',': 'ת', '.': 'ץ', '/': '.',
+  '1': '1', '2': '2', '3': '3', '4': '4', '5': '5',
+  '6': '6', '7': '7', '8': '8', '9': '9', '0': '0',
+  '-': '-', '=': '=',
+  ' ': ' ', '\n': '\n', '\t': '\t'
+};
+
+/* Обратная карта: HE -> EN */
+const REVERSE = {};
+for (const [lat, heb] of Object.entries(KEYMAP)) {
+  if (heb && heb.length === 1 && !(heb in REVERSE)) REVERSE[heb] = lat;
+}
+
+const inputL  = document.getElementById('inputL');
+const outputL = document.getElementById('outputL');
+const inputR  = document.getElementById('inputR');
+const outputR = document.getElementById('outputR');
+const toastEl = document.getElementById('toast');
+
+let syncing = false;
+
+/* ---------- Преобразование ---------- */
+function convert(text, map) {
+  let result = '';
+  for (const ch of text) {
+    const lower = ch.toLowerCase();
+    let mapped = map[lower];
+    if (mapped === undefined) mapped = map[ch];
+    result += (mapped !== undefined) ? mapped : ch;
+  }
+  return result;
+}
+
+/* ---------- Синхронизация ---------- */
+function syncFromLeft() {
+  if (syncing) return;
+  syncing = true;
+  outputL.value = convert(inputL.value, KEYMAP);
+  syncing = false;
+}
+function syncFromRight() {
+  if (syncing) return;
+  syncing = true;
+  outputR.value = convert(inputR.value, REVERSE);
+  syncing = false;
+}
+
+inputL.addEventListener('input', syncFromLeft);
+inputR.addEventListener('input', syncFromRight);
+
+/* ---------- Toast ---------- */
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toastEl.classList.remove('show'), 1600);
+}
+
+/* ---------- Кнопки левой половины ---------- */
+document.getElementById('copyL').addEventListener('click', async () => {
+  if (!outputL.value) return toast('Слева пока пусто');
+  try { await navigator.clipboard.writeText(outputL.value); toast('Иврит скопирован ✓'); }
+  catch { toast('Не удалось скопировать'); }
+});
+document.getElementById('clearL').addEventListener('click', () => {
+  inputL.value = ''; outputL.value = '';
+  inputL.focus();
+  toast('Левая половина очищена');
+});
+
+/* ---------- Кнопки правой половины ---------- */
+document.getElementById('copyR').addEventListener('click', async () => {
+  if (!outputR.value) return toast('Справа пока пусто');
+  try { await navigator.clipboard.writeText(outputR.value); toast('Латиница скопирована ✓'); }
+  catch { toast('Не удалось скопировать'); }
+});
+document.getElementById('clearR').addEventListener('click', () => {
+  inputR.value = ''; outputR.value = '';
+  inputR.focus();
+  toast('Правая половина очищена');
+});
+
+/* ---------- Инициализация ---------- */
+syncFromLeft();
+syncFromRight();
+</script>
+</body>
+</html>
