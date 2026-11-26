@@ -25,7 +25,6 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { min-height: 100%; }
   body {
-    /* Применён шрифт Inter, с запасными вариантами */
     font-family: 'Inter', 'Noto Sans Hebrew', 'Segoe UI', Tahoma, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
@@ -59,17 +58,7 @@
     position: relative;
     flex: 1;
   }
-  .row::after {
-    content: "";
-    position: absolute;
-    top: 16px;
-    bottom: 16px;
-    left: 50%;
-    width: 1px;
-    background: var(--border);
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
+  /* Псевдоэлемент ::after, создававший вертикальную линию, удалён */
 
   .half { display: flex; flex-direction: column; min-width: 0; }
 
@@ -145,7 +134,7 @@
     background: var(--accent);
     border: none;
     color: #1a1a1a;
-    font-weight: 600; /* Для Inter 600 смотрится лучше */
+    font-weight: 600;
     padding: 16px 28px;
     font-size: 1.64rem;
     border-radius: 12px;
@@ -192,7 +181,6 @@
       row-gap: 16px;
       column-gap: 0;
     }
-    .row::after { display: none; }
     textarea { 
       font-size: 36px;
       min-height: 300px;
